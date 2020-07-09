@@ -7,8 +7,10 @@ const userNumberElement = document.querySelector('#userNumber'),
     guessesRemainingElement = document.querySelector('#guessesRemaining');
 
 userNumberElement.addEventListener('input', handleNumberInput);
+sendButton.addEventListener('click', guessNumber);
+resetButton.addEventListener('click', start);
 
-const minNumber = 0,
+const minNumber = 1,
     maxNumber = 10,
     totalGuesses = 3;
 
@@ -33,7 +35,7 @@ function start(){
 }
 
 function generateNumber(){
-    Math.floor(Math.random() * (maxNumber + 1 - minNumber)) + minNumber
+    return Math.floor(Math.random() * (maxNumber + 1 - minNumber)) + minNumber;
 }
 
 function handleNumberInput(event){
@@ -45,6 +47,28 @@ function handleNumberInput(event){
 
 function handleMinMax(min, number, max){
     return Math.min(Math.max(number, min), max);
+}
+
+function guessNumber(){
+    guessesRemaining--;
+    guessesRemainingElement.innerText = guessesRemaining;
+    if(currentNumber === userNumber){
+        tipElement.innerText = `Acertou! O número é ${currentNumber}`;
+        gameOver();
+    }else{
+        if(guessesRemaining > 0){
+            tipElement.innerText = `O número é ${currentNumber < userNumber ? 'menor':'maior'}`;
+        }else{
+            tipElement.innerText = `Acabaram suas tentativas! O número era ${currentNumber}`;
+            gameOver();
+        }
+    }
+}
+
+function gameOver(){
+    userNumberElement.classList.add('hidden');
+    sendButton.classList.add('hidden');
+    resetButton.classList.remove('hidden');
 }
 
 
