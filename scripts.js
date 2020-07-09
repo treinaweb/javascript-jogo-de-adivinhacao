@@ -6,6 +6,8 @@ const userNumberElement = document.querySelector('#userNumber'),
     tipElement = document.querySelector('#tip'),
     guessesRemainingElement = document.querySelector('#guessesRemaining');
 
+userNumberElement.addEventListener('input', handleNumberInput);
+
 const minNumber = 0,
     maxNumber = 10,
     totalGuesses = 3;
@@ -32,6 +34,17 @@ function start(){
 
 function generateNumber(){
     Math.floor(Math.random() * (maxNumber + 1 - minNumber)) + minNumber
+}
+
+function handleNumberInput(event){
+    let value = parseInt(event.target.value || userNumber || 0);
+    value = handleMinMax(minNumber, value, maxNumber);
+    userNumber = value;
+    event.target.value = value;
+}
+
+function handleMinMax(min, number, max){
+    return Math.min(Math.max(number, min), max);
 }
 
 
